@@ -1,0 +1,97 @@
+@use "variables" as *;
+
+
+.settings {
+    display: flex;
+    gap: 300px;
+    height: 100vh;
+    background-color: $color-white;
+    color: $color-dark;
+
+    &__left {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-top: 110px;
+    }
+    
+    &__info {
+        display: flex;
+        align-items: center;
+        background-color: $color-lightgrey;
+        margin-top: 40px;
+    }
+
+    &__info-text {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        gap:8px;
+        margin-left: 20px;
+    }
+
+    &__start-button {
+            background-color: $color-yellow;
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            padding: 16px;
+            margin: 12px;
+            gap:8px;
+            transition: transform 200ms ease-in-out;
+            border-style: none;
+            cursor: pointer;
+
+        &:not(:disabled):hover{
+            transform: scale(1.1);
+        }
+
+        &:not(:disabled):hover .settings__button-img {
+            transform: rotate(-15deg);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-bottom: 1.6rem;
+        margin-left: 1.6rem;
+        margin-top: 1.6rem;
+    }
+
+    &__group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.6rem;
+        border-style: none;
+    }
+
+    &__question {
+        display: flex;
+        align-items: center;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+    }
+
+    &__option {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+        margin-left: 2rem;
+    }
+    &__thumbnail-preview {
+        width: auto;
+        height: 412px;
+        object-fit: cover;
+    }
+}

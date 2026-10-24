@@ -1,0 +1,23 @@
+.card {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+
+    &__front-face {
+      transform: rotateY(180deg);
+    }
+
+    &.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    &__image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      backface-visibility: hidden;
+      position: absolute;
+    }
+}

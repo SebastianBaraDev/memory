@@ -1,7 +1,8 @@
 import "../styles/main.scss";
 import { getHomeTemplate } from "./home-template";
 import { getSettingsTemplate } from "./settings-template";
-import { initSettingsInputs } from "./settings";
+import { getSettings, initSettingsInputs } from "./settings";
+import { getGameTemplate } from "./game-template";
 
 /**
  * Initializes the card flip functionality.
@@ -16,8 +17,6 @@ function initCardFlip(): void {
     card.classList.toggle("is-flipped");
   });
 }
-
-//initCardFlip();
 
 /**
  * Renders the provided template into the screen element.
@@ -51,3 +50,20 @@ function initPlayButton(): void {
 
 renderScreen(getHomeTemplate());
 initPlayButton();
+
+/**
+ * Initialize the start button functionality.
+ */
+function initStartButton(): void {
+  const startButton = document.querySelector(
+    ".settings__start-button",
+  ) as HTMLAnchorElement | null;
+  if (!startButton){
+    console.error("Start button not found");
+    return;
+  }
+  startButton.addEventListener("click", () => {
+    renderScreen(getGameTemplate());
+    console.log(getSettings());
+  });
+}

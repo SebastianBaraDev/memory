@@ -6,6 +6,10 @@ const settings: GameSettings = {
     boardSize: null,
 };
 
+export function getSettings(): GameSettings {
+  return settings;
+}
+
 const SETTING_NAMES: Record<string, string> = {
     "theme-1": "Code vibes",
     "theme-2": "DA Projects",
@@ -15,10 +19,6 @@ const SETTING_NAMES: Record<string, string> = {
     24: "Board size 24",
     36: "Board size 36",
 };
-
-const myTheme = settings.theme;
-const myPlayer = settings.player;
-const myBoardSize = settings.boardSize;
 
 /** * Initializes the settings input elements and adds event listeners to them.
  */
@@ -30,6 +30,7 @@ export function initSettingsInputs() :void {
            updateSettings(input);
     });
 });
+initThemePreview();
 }
 
 /** * Updates the settings object based on the selected input.
@@ -97,6 +98,31 @@ function setText(id: string, text: string): void {
     content.textContent = text;
 }
 
-function showPreview(theme: string): void: {
-    
+/** * Shows the preview image for the selected theme.
+ * @param theme - The selected theme.
+ */
+function showPreview(theme: string): void{
+    const previewImage = document.querySelector<HTMLImageElement>(".settings__thumbnail-preview");
+    if (!previewImage) {
+        console.error("Preview element not found");
+        return;
+    }
+    previewImage.src = `/img/${theme}/thumbnail.svg`;
+}
+
+function initThemePreview(): void {
+    const themeInputs = document.querySelectorAll<HTMLInputElement>('input[name="theme"]');
+
+    themeInputs.forEach(input => {
+        const label = input.parentElement;
+        if (!label) return;
+
+    label.addEventListener("mouseenter", () => {
+      showPreview(input.value);
+    });
+
+    label.addEventListener("mouseleave", () => {
+      showPreview(settings.theme || "theme-1");
+        });
+    });
 }

@@ -43,7 +43,7 @@ export function getSettingsTemplate():string{
           </div>
 
           <div class="settings__right">
-            <img src="/img/theme-1/thumbnail-1.svg" alt="Preview of selected Theme" class="settings__thumbnail-preview">
+            <img src="/img/theme-1/thumbnail.svg" alt="Preview of selected Theme" class="settings__thumbnail-preview">
             <div class="settings__info">
             <p class="settings__info-text">
               <span id="settings__theme-name">Theme</span>
@@ -52,7 +52,7 @@ export function getSettingsTemplate():string{
               <img src="/icons/d-line.svg" alt="">
               <span id="settings__board-size">Board Size</span>
             </p>
-            <button class="settings__start-button" disabled><img src="/icons/play.svg" alt="" class="settings__button-img">Start</button>
+            <button class="settings__start-button" disabled initGameTemplate()><img src="/icons/play.svg" alt="" class="settings__button-img">Start</button>
             </div>
           </div>
 

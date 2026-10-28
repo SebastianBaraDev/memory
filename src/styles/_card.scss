@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 .card {
     position: relative;
     height: 120px;
@@ -11,6 +13,10 @@
 
     &.is-flipped {
       transform: rotateY(180deg);
+    }
+
+    &.is-matched {
+      outline: solid 4px $color-petrol;
     }
 
     &__image {

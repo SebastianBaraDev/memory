@@ -117,11 +117,20 @@ assets/     img/theme-1/, img/theme-2/, icons/
 | So 25.10. | Game-Over-Screen mit Gewinner + neue Runde, Checkliste und Konventionen vollständig prüfen, Abgabe |
 | Mo 26.10. | Puffer, ggf. Theme 3 und 4 |
 
+## Neuer Plan (ab Mo 26.10., Deadline flexibel, Ziel: Di 27.10. abgabebereit)
+| Tag | Ziel |
+|---|---|
+| Mo 26.10. | Start -> Spielfeld, Kartenstapel erzeugen + mischen, Karten in gewählter Größe/Theme anzeigen, Flip, Spiellogik (Paare vergleichen, Spielerwechsel, Punkte, Spielende) |
+| Di 27.10. | Game over / Winner / Draw, Exit-Popup (dialog), Theme-Farben (data-theme), Widescreen 1440px, Checkliste + Konventionen prüfen, Abgabe |
+| Danach (optional) | Theme 3 + 4 |
+
 ## Fortschritt
 - [x] Di 20.10. – Struktur steht, Assets exportiert (18 Motive je Theme), Karte dreht per Klick (BEM, Guard Clause). Offen: Farben + Schriften aus Figma für Mi.
 - [x] Mi 21.10. – SCSS-Partials mit @use, Variablen, Schriften lokal (@font-face), Homescreen-HTML + Grundlayout, Controller positioniert. Offen (Do-Einstieg, ca. 30 min): Controller-Animation mit @keyframes (Schritt 6), Play-Button fertig stylen (Padding, Hover). Theme-System -> Fr.
 - [x] Do 22.10. (nur 1 h) – Homescreen fertig: Margins zurückgesetzt, hgroup, Play-Button gestylt + Hover-Animation (Button scale, Controller-Icon rotate, Pfeil scale). Laut Figma ist der große Controller NICHT animiert; die Checklisten-Animation = Hover am Play-Button. Settings-Seite noch nicht begonnen -> Fr.
 - [x] Fr 23.10. – Screens als Templates (home-template.ts, settings-template.ts), renderScreen(template), Play -> Settings. Settings-HTML + Styling (Radio-Gruppen, BEM, value = Ordnername). GameSettings-Interface (types.ts), settings-Objekt, change-Listener mit forEach, updateSettings mit switch. Offen: Schritt 6 (Leiste füllen + Start freischalten), Hover-Vorschau.
-- [ ] Sa 24.10.
+- [x] Sa 24.10. – Settings komplett: Leiste mit Nachschlage-Objekt (SETTING_NAMES), setText-Helfer, Start-Button disabled/aktiv mit Styling, Hover-Vorschau (mouseenter/mouseleave). Achtung: Hover-Probleme kamen vom DevTools-Gerätemodus.
+- [x] Mo–Mi 26.–28.10. – Spielfeld steht: Start -> Game-Screen mit Header, createDeck (for-Schleife) + shuffleDeck (Fisher-Yates), Karten per Template mit data-motif, Grid-Modifier board--16/24/36, initCards (querySelectorAll + forEach), gameState (Interface GameState), Paare vergleichen, Rückdrehen per setTimeout + Board-Sperre, Punkte, Spielerwechsel, updateHeader, setText nach utils.ts, renderBoard aufgeteilt (getCardsHtml).
+  - Offen: 11d Spielende erkennen -> Game over / Winner / Draw, Exit-Popup (dialog), Theme-Farben (data-theme, is-matched-Farbe je Theme), Widescreen 1440px, Checkliste + Konventionen prüfen.
 - [ ] So 25.10.
 - [ ] Mo 26.10.

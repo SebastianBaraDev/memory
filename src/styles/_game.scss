@@ -1,0 +1,85 @@
+@use "variables" as *;
+
+.gameboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+    margin-top: 20px;
+    background-color: $color-dark;
+    color: $color-white;
+
+    &__score-board {
+        display: flex;
+        align-items: center;
+        background-color: $color-petroll;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    &__player-score {
+        display: flex;
+    }
+
+    &__blue-player-score {
+        font-size: 1.4rem;
+        color: $color-player-blue;
+    }
+
+    &__orange-player-score {
+        font-size: 1.4rem;
+        color: $color-player-orange;
+    }
+
+    &__current-player {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.4rem;
+    }
+
+    &__current-player-icon {
+        height: 24px;
+        width: auto;
+    }
+
+    &__exit-btn {
+        display: flex;
+        text-align: center;
+        gap: 8px;
+        background-color: $color-petroll;
+        padding: 12px 16px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: $color-white;
+        border-style: none;
+        cursor: pointer;
+
+        &:hover {
+        transform: scale(1.1);
+        }
+    }
+
+    &__btn-exit-icon {
+        height: 30px;
+        width: auto;
+    }
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);   // 4 equal columns
+  gap: 16px;
+
+  &--16{
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &--24{
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  &--36{
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

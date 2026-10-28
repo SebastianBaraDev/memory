@@ -1,4 +1,5 @@
 import {GameSettings} from "./types";
+import {setText} from "./utils";
 
 const settings: GameSettings = {
     theme: null,
@@ -85,18 +86,6 @@ function updateStartButtonState(): void {
     }
     startButton.disabled = !(settings.theme && settings.player && settings.boardSize);
 }   
-
-/** * Sets the inner HTML of an element with the specified ID to the provided text. * @param id - The ID of the element to update.
- * @param text - The text to set as the inner HTML of the element.
- */
-function setText(id: string, text: string): void {
-    const content = document.getElementById(id);
-    if (!content) {
-        console.error("No Settings content found");
-        return;
-    }
-    content.textContent = text;
-}
 
 /** * Shows the preview image for the selected theme.
  * @param theme - The selected theme.

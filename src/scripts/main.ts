@@ -1,22 +1,10 @@
 import "../styles/main.scss";
 import { getHomeTemplate } from "./home-template";
 import { getSettingsTemplate } from "./settings-template";
-import { getSettings, initSettingsInputs } from "./settings";
+import { initSettingsInputs } from "./settings";
 import { getGameTemplate } from "./game-template";
+import { renderBoard } from "./game";
 
-/**
- * Initializes the card flip functionality.
- */
-function initCardFlip(): void {
-  const card = document.querySelector(".card") as HTMLElement | null;
-  if (!card) {
-    console.error("Card element not found");
-    return;
-  }
-  card.addEventListener("click", () => {
-    card.classList.toggle("is-flipped");
-  });
-}
 
 /**
  * Renders the provided template into the screen element.
@@ -45,6 +33,7 @@ function initPlayButton(): void {
   playButton.addEventListener("click", () => {
     renderScreen(getSettingsTemplate());
     initSettingsInputs();
+    initStartButton();
   });
 }
 
@@ -57,13 +46,13 @@ initPlayButton();
 function initStartButton(): void {
   const startButton = document.querySelector(
     ".settings__start-button",
-  ) as HTMLAnchorElement | null;
+  ) as HTMLButtonElement | null;
   if (!startButton){
     console.error("Start button not found");
     return;
   }
   startButton.addEventListener("click", () => {
     renderScreen(getGameTemplate());
-    console.log(getSettings());
+    renderBoard();
   });
 }

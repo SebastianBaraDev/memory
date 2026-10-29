@@ -4,20 +4,7 @@ import { getSettingsTemplate } from "./settings-template";
 import { initSettingsInputs } from "./settings";
 import { getGameTemplate } from "./game-template";
 import { renderBoard } from "./game";
-
-
-/**
- * Renders the provided template into the screen element.
- * @param template - The HTML template to render.
- */
-function renderScreen(template: string): void {
-  const screen = document.getElementById("screen");
-  if (!screen) {
-    console.error("Site not found");
-    return;
-  }
-  screen.innerHTML = template;
-}
+import { renderScreen } from "./utils";
 
 /**
  * Initializes the play button functionality.

@@ -132,5 +132,7 @@ assets/     img/theme-1/, img/theme-2/, icons/
 - [x] Sa 24.10. – Settings komplett: Leiste mit Nachschlage-Objekt (SETTING_NAMES), setText-Helfer, Start-Button disabled/aktiv mit Styling, Hover-Vorschau (mouseenter/mouseleave). Achtung: Hover-Probleme kamen vom DevTools-Gerätemodus.
 - [x] Mo–Mi 26.–28.10. – Spielfeld steht: Start -> Game-Screen mit Header, createDeck (for-Schleife) + shuffleDeck (Fisher-Yates), Karten per Template mit data-motif, Grid-Modifier board--16/24/36, initCards (querySelectorAll + forEach), gameState (Interface GameState), Paare vergleichen, Rückdrehen per setTimeout + Board-Sperre, Punkte, Spielerwechsel, updateHeader, setText nach utils.ts, renderBoard aufgeteilt (getCardsHtml).
   - Offen: 11d Spielende erkennen -> Game over / Winner / Draw, Exit-Popup (dialog), Theme-Farben (data-theme, is-matched-Farbe je Theme), Widescreen 1440px, Checkliste + Konventionen prüfen.
+- [x] Do 29.10. – renderScreen nach utils.ts (kein Zirkel-Import), isGameOver, Game-over-Screen (game-over-template.ts, showGameOver per setTimeout + GAME_OVER_DELAY, _game-over.scss) – komplett selbst gebaut! Aufräumen: <main> im Template -> <section>, ids raus, TSDoc, toten forEach in handleMatch entfernen, Einrückung, $color-turqouise/$color-petroll umbenennen.
+  - Nächstes: Winner/Draw + "Back to start", Exit-Popup (dialog), Theme-Farben (data-theme, Template theme-fähig), Checkliste -> Abgabe.
 - [ ] So 25.10.
 - [ ] Mo 26.10.

@@ -24,8 +24,8 @@ export function getWinnerTemplate(winner: string, theme: string): string {
   return `
     <section class="result" data-winner="${winner}">
       <picture class="result__confetti">
-        <source media="${WIDESCREEN_MEDIA}" srcset="/icons/confetti-big.svg">
-        <img src="/icons/confetti-small.svg" alt="">
+        <source media="${WIDESCREEN_MEDIA}" srcset="/img/icons/confetti-big.svg">
+        <img src="/img/icons/confetti-small.svg" alt="">
       </picture>
       <p class="result__subtitle">The winner is</p>
       <h1 class="result__title">${winner} Player</h1>

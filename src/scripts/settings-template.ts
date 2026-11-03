@@ -9,7 +9,7 @@ export function getSettingsTemplate(): string {
         <h1 class="settings__title">Settings</h1>
 
         <fieldset class="settings__group">
-          <legend class="settings__question"><img src="/icons/palette-favicon.svg" alt="">Game themes</legend>
+          <legend class="settings__question"><img src="/img/icons/palette-favicon.svg" alt="">Game themes</legend>
           <label class="settings__option">
             <input type="radio" name="theme" value="theme-1">Code vibes theme</label>
           <label class="settings__option">
@@ -21,7 +21,7 @@ export function getSettingsTemplate(): string {
         </fieldset>
 
         <fieldset class="settings__group">
-          <legend class="settings__question"><img src="/icons/chess-pawn-small.svg" alt="">Choose player</legend>
+          <legend class="settings__question"><img src="/img/icons/chess-pawn-small.svg" alt="">Choose player</legend>
           <label class="settings__option">
             <input type="radio" name="player" value="blue">Blue</label>
           <label class="settings__option">
@@ -29,7 +29,7 @@ export function getSettingsTemplate(): string {
         </fieldset>
 
         <fieldset class="settings__group">
-          <legend class="settings__question"><img src="/icons/board-size.svg" alt="">Board size</legend>
+          <legend class="settings__question"><img src="/img/icons/board-size.svg" alt="">Board size</legend>
           <label class="settings__option">
             <input type="radio" name="board" value="16">16 cards</label>
           <label class="settings__option">
@@ -44,12 +44,12 @@ export function getSettingsTemplate(): string {
         <div class="settings__info">
           <p class="settings__info-text">
             <span id="settings__theme-name">Game themes</span>
-            <img src="/icons/d-line.svg" alt="">
+            <img src="/img/icons/d-line.svg" alt="">
             <span id="settings__player-name">Player</span>
-            <img src="/icons/d-line.svg" alt="">
+            <img src="/img/icons/d-line.svg" alt="">
             <span id="settings__board-size">Board size</span>
           </p>
-          <button class="settings__start-button" disabled><img src="/icons/play.svg" alt="" class="settings__button-img">Start</button>
+          <button class="settings__start-button" disabled><img src="/img/icons/play.svg" alt="" class="settings__button-img">Start</button>
         </div>
       </div>
     </section>

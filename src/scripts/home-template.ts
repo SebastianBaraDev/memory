@@ -11,12 +11,12 @@ export function getHomeTemplate(): string {
       </hgroup>
 
       <button class="home__play-button">
-        <img src="/icons/controller-small.svg" alt="" class="home__button-img">
+        <img src="/img/icons/controller-small.svg" alt="" class="home__button-img">
         Play
-        <img src="/icons/arrow.svg" alt="" class="home__button-arrow">
+        <img src="/img/icons/arrow.svg" alt="" class="home__button-arrow">
       </button>
 
-      <img src="/icons/controller-big.svg" alt="" class="home__controller-big">
+      <img src="/img/icons/controller-big.svg" alt="" class="home__controller-big">
     </section>
   `;
 }

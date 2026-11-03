@@ -1,117 +1,157 @@
-import {GameSettings} from "./types";
-import {setText} from "./utils";
+import { GameSettings } from "./types";
+import { setText } from "./utils";
+
+const DEFAULT_PREVIEW_THEME = "theme-1";
 
 const settings: GameSettings = {
-    theme: null,
-    player: null,
-    boardSize: null,
+  theme: null,
+  player: null,
+  boardSize: null,
 };
 
+const SETTING_NAMES: Record<string, string> = {
+  "theme-1": "Code vibes theme",
+  "theme-2": "DA Projects theme",
+  "theme-3": "Gaming theme",
+  "theme-4": "Foods theme",
+  blue: "Blue Player",
+  orange: "Orange Player",
+  16: "16 cards",
+  24: "24 cards",
+  36: "36 cards",
+};
+
+/**
+ * Returns the current game settings.
+ * @returns The settings object with theme, player and board size.
+ */
 export function getSettings(): GameSettings {
   return settings;
 }
 
-const SETTING_NAMES: Record<string, string> = {
-    "theme-1": "Code vibes",
-    "theme-2": "DA Projects",
-    blue: "Blue Player",
-    orange: "Orange Player",
-    16: "Board size 16",
-    24: "Board size 24",
-    36: "Board size 36",
-};
-
-/** * Initializes the settings input elements and adds event listeners to them.
+/**
+ * Resets all settings to null, so a new game starts without preselection.
  */
-export function initSettingsInputs() :void {
-    const radioInputs = document.querySelectorAll<HTMLInputElement>('input[type="radio"]');
-  
-    radioInputs.forEach(input => {
-        input.addEventListener("change", () => {
-           updateSettings(input);
-    });
-});
-initThemePreview();
+export function resetSettings(): void {
+  settings.theme = null;
+  settings.player = null;
+  settings.boardSize = null;
 }
 
-/** * Updates the settings object based on the selected input.
+/**
+ * Initializes the settings input elements and adds event listeners to them.
+ */
+export function initSettingsInputs(): void {
+  const radioInputs = document.querySelectorAll<HTMLInputElement>(
+    'input[type="radio"]',
+  );
+
+  radioInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      updateSettings(input);
+    });
+  });
+  initThemePreview();
+}
+
+/**
+ * Updates the settings object based on the selected input.
  * @param input - The input element that triggered the change event.
  */
 function updateSettings(input: HTMLInputElement): void {
-    switch (input.name) {
-        case "theme": 
-            settings.theme = input.value;
-            break;
-        case "player":
-            settings.player = input.value;
-            break;
-        case "board":
-            settings.boardSize = parseInt(input.value, 10);
-            break;
-        default:
-            console.error(`Unknown input name: ${input.name}`);
-    }
-    updateSummary();
+  switch (input.name) {
+    case "theme":
+      settings.theme = input.value;
+      break;
+    case "player":
+      settings.player = input.value;
+      break;
+    case "board":
+      settings.boardSize = parseInt(input.value, 10);
+      break;
+    default:
+      console.error(`Unknown input name: ${input.name}`);
+  }
+  updateSummary();
 }
 
-/** * Updates the summary section of the settings screen based on the current settings. */
-function updateSummary(): void {
-    updateThemeText();
-    updatePlayerText();
-    updateBoardSizeText();
-    updateStartButtonState();
-}
-
-/** * Updates the theme text in the summary section based on the current settings. */
-function updateThemeText(): void {
-    setText("settings__theme-name", settings.theme ? SETTING_NAMES[settings.theme] || "Theme" : "Theme");
-}
-
-/** * Updates the player text in the summary section based on the current settings. */
-function updatePlayerText(): void {
-    setText("settings__player-name", settings.player ? SETTING_NAMES[settings.player] || "Player" : "Player");
-}
-
-/** * Updates the board size text in the summary section based on the current settings. */
-function updateBoardSizeText(): void {
-    setText("settings__board-size", settings.boardSize ? SETTING_NAMES[settings.boardSize] || "Board Size" : "Board Size");
-}
-
-/** * Updates the state of the start button based on the current settings. */
-function updateStartButtonState(): void {
-    const startButton = document.querySelector(".settings__start-button") as HTMLButtonElement | null;
-    if (!startButton) {
-        console.error("Start button not found");
-        return;
-    }
-    startButton.disabled = !(settings.theme && settings.player && settings.boardSize);
-}   
-
-/** * Shows the preview image for the selected theme.
- * @param theme - The selected theme.
+/**
+ * Updates the summary bar of the settings screen based on the current settings.
  */
-function showPreview(theme: string): void{
-    const previewImage = document.querySelector<HTMLImageElement>(".settings__thumbnail-preview");
-    if (!previewImage) {
-        console.error("Preview element not found");
-        return;
-    }
-    previewImage.src = `/img/${theme}/thumbnail.svg`;
+function updateSummary(): void {
+  setText("settings__theme-name", getSettingName(settings.theme, "Game themes"));
+  setText("settings__player-name", getSettingName(settings.player, "Player"));
+  setText("settings__board-size", getSettingName(settings.boardSize, "Board size"));
+  updateStartButtonState();
 }
 
+/**
+ * Returns the readable name of a setting, or the placeholder if nothing is selected.
+ * @param value - The selected value, e.g. "theme-1", "blue" or 16.
+ * @param placeholder - The text shown while nothing is selected.
+ * @returns The readable name or the placeholder.
+ */
+function getSettingName(value: string | number | null, placeholder: string): string {
+  if (value === null) return placeholder;
+  return SETTING_NAMES[value] || placeholder;
+}
+
+/**
+ * Enables the start button only when theme, player and board size are selected.
+ */
+function updateStartButtonState(): void {
+  const startButton = document.querySelector<HTMLButtonElement>(
+    ".settings__start-button",
+  );
+  if (!startButton) {
+    console.error("Start button not found");
+    return;
+  }
+  startButton.disabled = !(
+    settings.theme &&
+    settings.player &&
+    settings.boardSize
+  );
+}
+
+/**
+ * Shows the preview image for the given theme.
+ * @param theme - The theme folder, e.g. "theme-1".
+ */
+function showPreview(theme: string): void {
+  const previewImage = document.querySelector<HTMLImageElement>(
+    ".settings__thumbnail-preview",
+  );
+  if (!previewImage) {
+    console.error("Preview element not found");
+    return;
+  }
+  previewImage.src = `/img/${theme}/thumbnail.svg`;
+}
+
+/**
+ * Changes the preview image while the mouse is over a theme option.
+ */
 function initThemePreview(): void {
-    const themeInputs = document.querySelectorAll<HTMLInputElement>('input[name="theme"]');
+  const themeInputs = document.querySelectorAll<HTMLInputElement>(
+    'input[name="theme"]',
+  );
+  themeInputs.forEach((input) => {
+    initPreviewHover(input);
+  });
+}
 
-    themeInputs.forEach(input => {
-        const label = input.parentElement;
-        if (!label) return;
-
-    label.addEventListener("mouseenter", () => {
-      showPreview(input.value);
-    });
-
-    label.addEventListener("mouseleave", () => {
-      showPreview(settings.theme || "theme-1");
-        });
-    });
+/**
+ * Shows the hovered theme as preview and goes back to the selected theme on mouse leave.
+ * @param input - The radio input of one theme option.
+ */
+function initPreviewHover(input: HTMLInputElement): void {
+  const label = input.parentElement;
+  if (!label) return;
+  label.addEventListener("mouseenter", () => {
+    showPreview(input.value);
+  });
+  label.addEventListener("mouseleave", () => {
+    showPreview(settings.theme || DEFAULT_PREVIEW_THEME);
+  });
 }

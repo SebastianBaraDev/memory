@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "mixins" as *;
 
 .home {
   display: flex;
@@ -7,6 +8,7 @@
   align-items: center;
   position: relative;
   height: 100vh;
+  @include widescreen-content;
 
   &__title {
     font-size: 140px;

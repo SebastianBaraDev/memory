@@ -1,18 +1,38 @@
-@use 'variables' as *;
+@use "variables" as *;
+@use "mixins" as *;
 
 body {
-    height: 100vh;
-    background-color: $color-dark;
-    perspective: 1000px;
-    font-family: $font-primary;
-    color: $color-white;
-    margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-page-bg);
+  perspective: 1000px;
+  font-family: var(--font-primary);
+  color: $color-white;
+  margin: 0;
+  overflow-x: clip; // the full-width confetti strip must not cause a scrollbar
+}
+
+// the background of each screen fills the whole width, also on widescreen
+body:has(.settings) {
+  background-color: $color-white;
+}
+
+body:has(.game-over) {
+  background-color: var(--color-bg);
+}
+
+body:has(.result) {
+  background-color: var(--color-result-bg);
 }
 
 button {
   font: inherit;
 }
 
-p,h1 {
-    margin: 0;
+p,
+h1 {
+  margin: 0;
+}
+
+.visually-hidden {
+  @include visually-hidden;
 }

@@ -1,0 +1,79 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.result {
+  background-color: var(--color-result-bg);
+  color: var(--color-result-text);
+  min-height: 100vh;
+  @include widescreen-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // color of the winner, used by the title in themes without --color-result-title
+  &[data-winner="blue"] {
+    --winner-color: var(--color-player-blue);
+  }
+
+  &[data-winner="orange"] {
+    --winner-color: var(--color-player-orange);
+  }
+
+  &[data-winner="draw"] {
+    --winner-color: var(--color-accent);
+    --color-result-title: var(--color-accent);
+    --result-title-transform: uppercase; // "DRAW" is uppercase in every theme
+  }
+
+  &__title {
+    font-size: 60px;
+    color: var(--color-result-title, var(--winner-color));
+    text-transform: var(--result-title-transform);
+  }
+
+  &__subtitle {
+    font-size: 40px;
+  }
+
+  &__icon {
+    height: 250px;
+    width: auto;
+    padding: var(--result-icon-padding);
+    background-color: var(--result-icon-bg);
+  }
+
+  &__confetti {
+    display: var(--confetti-display);
+    width: 100%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    // widescreen: the long strip goes over the whole screen width
+    @media (min-width: $breakpoint-widescreen) {
+      width: 100vw;
+    }
+  }
+
+  &__btn {
+    border-style: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    background-color: var(--color-result-btn-bg);
+    color: var(--color-result-btn-text);
+    box-shadow: var(--button-shadow);
+    text-transform: var(--button-text-transform);
+    padding: 20px 12px;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: 700;
+
+    &:hover {
+      transform: var(--button-hover-transform);
+      filter: var(--button-hover-filter);
+    }
+  }
+}

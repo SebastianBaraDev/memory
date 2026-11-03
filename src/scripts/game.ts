@@ -1,12 +1,14 @@
 import { getSettings } from "./settings";
-import { getCardTemplate, getGameTemplate } from "./game-template";
+import { getCardTemplate } from "./game-template";
 import { GameState } from "./types";
 import { renderScreen, setText } from "./utils";
 import { getGameOverTemplate } from "./game-over-template";
+import { getDrawTemplate, getWinnerTemplate } from "./winner-template";
 
 const CARDS_PER_PAIR = 2;
 const FLIP_BACK_DELAY = 1000;
 const GAME_OVER_DELAY = 1500;
+const RESULT_DELAY = 3000;
 
 const gameState: GameState = {
   flippedCards: [],
@@ -15,8 +17,13 @@ const gameState: GameState = {
   scores: { blue: 0, orange: 0 },
 };
 
+/** Ids of all running timers, so they can be stopped when the game is left. */
+let runningTimers: number[] = [];
+
 /**
- * Creates a card deck with 16, 24 or 36 Card. Each card is double.
+ * Creates a card deck where every motif number appears twice.
+ * @param boardSize - The number of cards: 16, 24 or 36.
+ * @returns The motif numbers of all cards (not shuffled yet).
  */
 export function createDeck(boardSize: number): number[] {
   const numbers: number[] = [];
@@ -61,6 +68,27 @@ export function renderBoard(): void {
 }
 
 /**
+ * Stops all running timers of the game, e.g. when the player leaves it.
+ * Otherwise an old timer could change the next game.
+ */
+export function stopGame(): void {
+  runningTimers.forEach((timerId) => {
+    clearTimeout(timerId);
+  });
+  runningTimers = [];
+}
+
+/**
+ * Starts a timer and remembers its id, so stopGame() can stop it.
+ * @param callback - The function to run after the delay.
+ * @param delay - The delay in milliseconds.
+ */
+function startTimer(callback: () => void, delay: number): void {
+  const timerId = window.setTimeout(callback, delay);
+  runningTimers.push(timerId);
+}
+
+/**
  * Builds the HTML for all cards of a deck.
  * @param deck - The shuffled motif numbers.
  * @param theme - The selected theme folder, e.g. "theme-1".
@@ -88,7 +116,7 @@ function initCards(): void {
 }
 
 /**
- * Checks if board is blocked an card is already flipped. Flip card if is not flipped.
+ * Flips the clicked card, unless the board is locked or the card is already open.
  * @param card - The clicked card element.
  */
 function handleCardClick(card: HTMLElement): void {
@@ -104,7 +132,7 @@ function handleCardClick(card: HTMLElement): void {
 }
 
 /**
- * Checks it the 2 flipped cards match each other. If so the current player get a Point and turns again. If not the cards flipped back.
+ * Checks if the two flipped cards show the same motif.
  */
 function checkForMatch(): void {
   const [firstCard, secondCard] = gameState.flippedCards;
@@ -116,7 +144,8 @@ function checkForMatch(): void {
 }
 
 /**
- * Checks if the 2 flipped cards match each other. If so the current Player get a Point.
+ * Handles a found pair: marks the cards, gives the current player a point
+ * and shows the game over screen after the last pair.
  */
 function handleMatch(): void {
   gameState.flippedCards.forEach((card) => {
@@ -125,7 +154,7 @@ function handleMatch(): void {
   gameState.scores[gameState.currentPlayer]++;
   updateHeader();
   if (isGameOver()) {
-    setTimeout(() => {
+    startTimer(() => {
       showGameOver();
     }, GAME_OVER_DELAY);
   }
@@ -133,11 +162,11 @@ function handleMatch(): void {
 }
 
 /**
- * Checks if the 2 flipped cards dismatch. If so the cards flipped back.
+ * Handles a wrong pair: flips the cards back and switches the player.
  */
 function handleMismatch(): void {
   gameState.isBoardLocked = true;
-  setTimeout(() => {
+  startTimer(() => {
     gameState.flippedCards.forEach((card) => {
       card.classList.remove("is-flipped");
     });
@@ -148,7 +177,7 @@ function handleMismatch(): void {
 }
 
 /**
- * Resets the flipped cards after every turn, if they don't match
+ * Resets the flipped cards and unlocks the board after every turn.
  */
 function resetTurn(): void {
   gameState.flippedCards = [];
@@ -167,7 +196,7 @@ function resetGameState(startPlayer: string): void {
 }
 
 /**
- * Changes between the two Player Blue and Orange after there turn.
+ * Switches between the players blue and orange after a wrong pair.
  */
 function switchPlayer(): void {
   if (gameState.currentPlayer === "blue") {
@@ -183,12 +212,19 @@ function switchPlayer(): void {
 function updateHeader(): void {
   setText("player-blue", String(gameState.scores.blue));
   setText("player-orange", String(gameState.scores.orange));
+  updateCurrentPlayerIcon();
+}
 
-  const icon = document.querySelector<HTMLImageElement>(
-    ".gameboard-header__current-player-icon",
-  );
-  if (!icon) return;
+/**
+ * Shows the icon of the current player and marks its box with the player
+ * (the box color is set per theme in _themes.scss).
+ */
+function updateCurrentPlayerIcon(): void {
+  const box = document.querySelector<HTMLElement>(".gameboard-header__current-player-box");
+  const icon = document.querySelector<HTMLImageElement>(".gameboard-header__current-player-icon");
+  if (!box || !icon) return;
   const theme = getSettings().theme;
+  box.dataset.player = gameState.currentPlayer;
   icon.src = `/img/${theme}/${gameState.currentPlayer}-player-icon.svg`;
   icon.alt = `${gameState.currentPlayer} player`;
 }
@@ -200,7 +236,7 @@ function updateHeader(): void {
 function isGameOver(): boolean {
   const size = getSettings().boardSize;
   if (size === null) return false;
-  const pairCount = size / CARDS_PER_PAIR; 
+  const pairCount = size / CARDS_PER_PAIR;
   const foundPairs = gameState.scores.blue + gameState.scores.orange;
   return pairCount === foundPairs;
 }
@@ -211,5 +247,38 @@ function isGameOver(): boolean {
 function showGameOver(): void {
   const blueScore = gameState.scores.blue;
   const orangeScore = gameState.scores.orange;
-  renderScreen(getGameOverTemplate(blueScore, orangeScore));
+  const theme = getSettings().theme;
+  if (!theme) return;
+  renderScreen(getGameOverTemplate(blueScore, orangeScore, theme));
+  startTimer(() => {
+    showResult();
+  }, RESULT_DELAY);
+}
+
+/**
+ * Finds out which player has won or if it is a draw.
+ * @returns "blue", "orange" or "draw".
+ */
+function getWinner(): string {
+  if (gameState.scores.blue > gameState.scores.orange) {
+    return "blue";
+  }
+  if (gameState.scores.orange > gameState.scores.blue) {
+    return "orange";
+  }
+  return "draw";
+}
+
+/**
+ * Shows the winner or the draw screen at the end of the game.
+ */
+function showResult(): void {
+  const winner = getWinner();
+  const theme = getSettings().theme;
+  if (!theme) return;
+  if (winner === "draw") {
+    renderScreen(getDrawTemplate(theme));
+    return;
+  }
+  renderScreen(getWinnerTemplate(winner, theme));
 }

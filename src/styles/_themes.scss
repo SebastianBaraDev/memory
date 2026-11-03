@@ -1,0 +1,237 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// Theme colors as CSS custom properties.
+// Default = theme-1 "Code vibes". Home and settings always use these,
+// because data-theme is only set on the body while a game is running.
+body {
+  --font-primary: #{$font-primary};
+  --color-bg: #{$color-dark};
+  --color-accent: #{$color-turquoise};
+  --color-surface: #{$color-light-petrol};
+  --color-border: var(--color-accent);
+  --color-exit-border: transparent;
+  --color-player-blue: #{$color-player-blue};
+  --color-player-orange: #{$color-player-orange};
+  --color-dialog-bg: #{$color-white};
+  --color-dialog-text: #{$color-black};
+  --color-dialog-exit-bg: #{$color-white};
+  --color-dialog-back-bg: var(--color-accent);
+  --color-dialog-back-text: #{$color-white};
+  --color-dialog-exit-text: var(--color-accent);
+  --radius: 0;
+  --button-hover-transform: scale(1.1);
+  --button-hover-filter: none;
+  --button-font-weight: 400;
+  --button-shadow: none;
+  --button-text-transform: none;
+
+  // game board header
+  --header-bg: var(--color-bg);
+  --header-radius: 0;
+  --header-padding: 0;
+  --score-board-bg: var(--color-surface);
+  --score-board-padding: 20px;
+  --color-exit-bg: var(--color-surface);
+  --color-exit-text: #{$color-white};
+  --color-header-text: #{$color-white};
+  --color-page-bg: var(--color-bg);
+
+  // game over + winner / draw screens
+  --color-game-over-title: var(--color-accent);
+  --color-result-bg: var(--color-bg);
+  --color-result-text: #{$color-white};
+  --color-result-btn-bg: var(--color-surface);
+  --color-result-btn-text: #{$color-white};
+  --result-icon-bg: transparent;
+  --result-icon-padding: 0;
+  --confetti-display: block;
+  --game-over-title-transform: none; // "Game over"
+  --result-title-transform: uppercase; // "BLUE PLAYER"
+  // --color-result-title is not set here on purpose: without it the
+  // winner title uses the winner's player color (see _result.scss)
+
+  // card: element size + where the card image sits inside it
+  --card-width: 120px;
+  --card-height: 120px;
+  --card-radius: 0;
+  --card-image-top: 0;
+  --card-back-left: 0;
+  --card-front-left: 0;
+  --card-image-width: 100%;
+  --card-image-height: 100%;
+}
+
+// theme-2 "DA Projects"
+body[data-theme="theme-2"] {
+  --font-primary: #{$font-da-projects};
+  --color-bg: #{$color-petrol};
+  --color-accent: #{$color-red};
+  --color-surface: #{$color-white-transparent};
+  --color-border: transparent;
+  --color-player-blue: #{$color-game-blue};
+  --color-player-orange: #{$color-game-orange};
+  --color-dialog-back-bg: #{$color-da-light-blue};
+  --color-dialog-back-text: #{$color-petrol};
+  --color-dialog-exit-bg: #{$color-da-salmon};
+  --color-dialog-exit-text: #{$color-white};
+  --color-dialog-bg: #{$color-game-dialog};
+  --color-dialog-text: #{$color-game-bg};
+  --radius: 12px;
+  --button-hover-transform: none; // buttons get darker instead of bigger
+  --button-hover-filter: brightness(0.85);
+  --button-font-weight: 700;
+  --button-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+  // card images are 120 x 100 with rounded corners
+  --card-height: 100px;
+  --card-radius: 13px;
+
+  // white page, light grey header bar, white score box
+  --color-page-bg: #{$color-white};
+  --header-bg: #{$color-da-header};
+  --header-radius: 8px;
+  --header-padding: 0 16px;
+  --score-board-bg: #{$color-white};
+  --score-board-padding: 6px 12px;
+  --color-header-text: #{$color-petrol};
+  --color-exit-bg: #{$color-da-light-blue};
+  --color-exit-text: #{$color-petrol};
+
+  // winner title is white, no confetti
+  --game-over-title-transform: uppercase;
+  --result-title-transform: capitalize; // "Blue Player"
+  --color-result-title: #{$color-white};
+  --color-result-btn-bg: #{$color-da-light-blue};
+  --color-result-btn-text: #{$color-petrol};
+  --confetti-display: none;
+}
+
+// theme-3 "Game theme"
+body[data-theme="theme-3"] {
+  --font-primary: #{$font-game};
+  --color-bg: #{$color-game-bg};
+  --color-accent: #{$color-game-pink};
+  --color-surface: #{$color-white-transparent};
+  --color-border: #{$color-game-border};
+  --color-exit-border: #{$color-game-border};
+  --color-player-blue: #{$color-game-blue};
+  --color-player-orange: #{$color-game-orange};
+  --color-dialog-bg: #{$color-game-dialog};
+  --color-dialog-text: #{$color-game-bg};
+  --color-dialog-exit-bg: #{$color-game-pink-light};
+  --radius: 8px;
+
+  // header is one pink bar, the scores sit in a white box
+  --header-bg: #{$color-game-header};
+  --header-radius: 8px;
+  --header-padding: 0 16px;
+  --score-board-bg: #{$color-white};
+  --score-board-padding: 6px 12px;
+  --color-exit-bg: transparent;
+
+  // winner title keeps the player color, no confetti
+  --game-over-title-transform: uppercase;
+  --confetti-display: none;
+
+  // card images are 129 x 144 incl. shadow, the visible card is 105 x 120
+  // at x = 6 / y = 6, so the image is moved and may overflow the card element
+  --card-width: 105px;
+  --card-height: 120px;
+  --card-radius: 12px;
+  --card-image-top: -6px;
+  --card-back-left: -6px;
+  --card-front-left: -18px;
+  --card-image-width: 129px;
+  --card-image-height: 144px;
+}
+
+// theme-4 "Food theme"
+body[data-theme="theme-4"] {
+  --font-primary: #{$font-food};
+  --color-bg: #{$color-food-orange};
+  --color-accent: #{$color-food-orange};
+  --color-surface: #{$color-food-light};
+  --color-border: #{$color-food-orange};
+  --color-exit-border: #{$color-food-orange};
+  --color-player-blue: #{$color-game-blue};
+  --color-player-orange: #{$color-game-orange};
+  --color-dialog-bg: #{$color-lightgrey};
+  --color-dialog-text: #{$color-food-orange};
+  --color-dialog-back-bg: #{$color-food-button};
+  --color-dialog-back-text: #{$color-white};
+  --color-dialog-exit-bg: #{$color-food-light};
+  --color-dialog-exit-text: #{$color-food-orange};
+  --radius: 6px;
+  --button-hover-transform: none;
+  --button-hover-filter: brightness(0.92);
+  --button-font-weight: 600;
+  --button-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --button-text-transform: uppercase;
+
+  // white page, beige header bar, white score box
+  --color-page-bg: #{$color-white};
+  --header-bg: #{$color-food-header};
+  --header-radius: 8px;
+  --header-padding: 0 16px;
+  --score-board-bg: #{$color-white};
+  --score-board-padding: 6px 12px;
+  --color-header-text: #{$color-food-orange};
+  --color-exit-bg: #{$color-food-light};
+  --color-exit-text: #{$color-food-orange};
+
+  // game over is orange with a white title, winner / draw is light
+  --game-over-title-transform: uppercase;
+  --result-title-transform: capitalize;
+  --color-game-over-title: #{$color-white};
+  --color-result-bg: #{$color-lightgrey};
+  --color-result-text: #{$color-food-orange};
+  --color-result-title: #{$color-food-orange};
+  --color-result-btn-bg: #{$color-food-orange};
+  --result-icon-bg: #{$color-food-header};
+  --result-icon-padding: 24px;
+  --confetti-display: none;
+}
+
+// theme-4: the exit button turns orange with white text on hover
+body[data-theme="theme-4"] .gameboard-header__exit-btn:hover {
+  background-color: $color-food-orange;
+  color: $color-white;
+  filter: none;
+
+  .gameboard-header__btn-exit-icon {
+    filter: brightness(0) invert(1); // turns the icon white
+  }
+}
+
+// theme-2/3/4: white current player icon in a box with the player color
+body[data-theme="theme-2"],
+body[data-theme="theme-3"],
+body[data-theme="theme-4"] {
+  .gameboard-header__current-player-box {
+    padding: 4px;
+
+    &[data-player="blue"] {
+      background-color: var(--color-player-blue);
+    }
+
+    &[data-player="orange"] {
+      background-color: var(--color-player-orange);
+    }
+  }
+
+  .gameboard-header__current-player-icon {
+    filter: brightness(0) invert(1); // turns the icon white
+  }
+
+  // the score boxes only show icon + number, the names stay readable for screen readers
+  .gameboard-header__player-name,
+  .game-over__player-name {
+    @include visually-hidden;
+  }
+}
+
+// only theme-2 has a rounded box, theme-3 and theme-4 stay square
+body[data-theme="theme-2"] .gameboard-header__current-player-box {
+  border-radius: 6px;
+}

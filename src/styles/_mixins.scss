@@ -1,0 +1,21 @@
+@use "variables" as *;
+
+// Widescreen (from 1440px): the content keeps the desktop width and is
+// centered. The background stays on the body, so it fills the whole screen.
+@mixin widescreen-content {
+  @media (min-width: $breakpoint-widescreen) {
+    max-width: $content-max-width;
+    margin-inline: auto;
+  }
+}
+
+// Hides an element visually, but screen readers still read it
+// (display: none would hide it for screen readers too).
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

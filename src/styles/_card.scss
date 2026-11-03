@@ -1,29 +1,36 @@
 @use "variables" as *;
 
+// Card size and image position come from the theme (see _themes.scss),
+// because some themes have the shadow inside the card image.
 .card {
-    position: relative;
-    height: 120px;
-    width: 120px;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
 
-    &__front-face {
-      transform: rotateY(180deg);
-    }
+  &.is-flipped {
+    transform: rotateY(180deg);
+  }
 
-    &.is-flipped {
-      transform: rotateY(180deg);
-    }
+  &.is-matched {
+    outline: solid 4px var(--color-accent);
+  }
 
-    &.is-matched {
-      outline: solid 4px $color-turquoise;
-    }
+  &__image {
+    position: absolute;
+    top: var(--card-image-top);
+    left: var(--card-back-left);
+    width: var(--card-image-width);
+    height: var(--card-image-height);
+    object-fit: cover;
+    backface-visibility: hidden;
+  }
 
-    &__image {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      backface-visibility: hidden;
-      position: absolute;
-    }
+  // the front face is mirrored, so its shadow offset is on the other side
+  &__front-face {
+    left: var(--card-front-left);
+    transform: rotateY(180deg);
+  }
 }

@@ -4,6 +4,8 @@ import { GameState } from "./types";
 import { renderScreen, setText } from "./utils";
 import { getGameOverTemplate } from "./game-over-template";
 import { getDrawTemplate, getWinnerTemplate } from "./winner-template";
+import { Card } from "./card";
+import { TimerManager } from "./timer-manager";
 
 const CARDS_PER_PAIR = 2;
 const FLIP_BACK_DELAY = 1000;
@@ -17,8 +19,8 @@ const gameState: GameState = {
   scores: { blue: 0, orange: 0 },
 };
 
-/** Ids of all running timers, so they can be stopped when the game is left. */
-let runningTimers: number[] = [];
+/** All running timers of the game, so they can be stopped when the game is left. */
+const timers = new TimerManager();
 
 /**
  * Creates a card deck where every motif number appears twice.
@@ -72,20 +74,7 @@ export function renderBoard(): void {
  * Otherwise an old timer could change the next game.
  */
 export function stopGame(): void {
-  runningTimers.forEach((timerId) => {
-    clearTimeout(timerId);
-  });
-  runningTimers = [];
-}
-
-/**
- * Starts a timer and remembers its id, so stopGame() can stop it.
- * @param callback - The function to run after the delay.
- * @param delay - The delay in milliseconds.
- */
-function startTimer(callback: () => void, delay: number): void {
-  const timerId = window.setTimeout(callback, delay);
-  runningTimers.push(timerId);
+  timers.stopAll();
 }
 
 /**
@@ -103,13 +92,14 @@ function getCardsHtml(deck: number[], theme: string): string {
 }
 
 /**
- * Initializes the card flip functionality.
+ * Creates a Card object for every card element and makes it clickable.
  */
 function initCards(): void {
-  const cards = document.querySelectorAll<HTMLElement>(".card");
+  const cardElements = document.querySelectorAll<HTMLElement>(".card");
 
-  cards.forEach((card) => {
-    card.addEventListener("click", () => {
+  cardElements.forEach((element) => {
+    const card = new Card(element);
+    card.onClick(() => {
       handleCardClick(card);
     });
   });
@@ -117,13 +107,13 @@ function initCards(): void {
 
 /**
  * Flips the clicked card, unless the board is locked or the card is already open.
- * @param card - The clicked card element.
+ * @param card - The clicked card.
  */
-function handleCardClick(card: HTMLElement): void {
+function handleCardClick(card: Card): void {
   if (gameState.isBoardLocked) return;
-  if (card.classList.contains("is-flipped")) return;
+  if (card.isFlipped()) return;
 
-  card.classList.add("is-flipped");
+  card.flip();
   gameState.flippedCards.push(card);
 
   if (gameState.flippedCards.length === CARDS_PER_PAIR) {
@@ -136,7 +126,7 @@ function handleCardClick(card: HTMLElement): void {
  */
 function checkForMatch(): void {
   const [firstCard, secondCard] = gameState.flippedCards;
-  if (firstCard.dataset.motif === secondCard.dataset.motif) {
+  if (firstCard.matches(secondCard)) {
     handleMatch();
   } else {
     handleMismatch();
@@ -149,12 +139,12 @@ function checkForMatch(): void {
  */
 function handleMatch(): void {
   gameState.flippedCards.forEach((card) => {
-    card.classList.add("is-matched");
+    card.markMatched();
   });
   gameState.scores[gameState.currentPlayer]++;
   updateHeader();
   if (isGameOver()) {
-    startTimer(() => {
+    timers.start(() => {
       showGameOver();
     }, GAME_OVER_DELAY);
   }
@@ -166,9 +156,9 @@ function handleMatch(): void {
  */
 function handleMismatch(): void {
   gameState.isBoardLocked = true;
-  startTimer(() => {
+  timers.start(() => {
     gameState.flippedCards.forEach((card) => {
-      card.classList.remove("is-flipped");
+      card.flipBack();
     });
     switchPlayer();
     updateHeader();
@@ -250,7 +240,7 @@ function showGameOver(): void {
   const theme = getSettings().theme;
   if (!theme) return;
   renderScreen(getGameOverTemplate(blueScore, orangeScore, theme));
-  startTimer(() => {
+  timers.start(() => {
     showResult();
   }, RESULT_DELAY);
 }

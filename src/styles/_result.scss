@@ -6,8 +6,10 @@
   color: var(--color-result-text);
   min-height: 100vh;
   @include widescreen-content;
+  position: relative; // the confetti is placed inside this box
   display: flex;
   flex-direction: column;
+  justify-content: center; // content in the middle of the screen
   align-items: center;
 
   // color of the winner, used by the title in themes without --color-result-title
@@ -29,6 +31,7 @@
     font-size: 60px;
     color: var(--color-result-title, var(--winner-color));
     text-transform: var(--result-title-transform);
+    margin-bottom: 32px; // space between title and pawn / trophy
   }
 
   &__subtitle {
@@ -42,8 +45,13 @@
     background-color: var(--result-icon-bg);
   }
 
+  // the confetti stays at the top, while the rest is centered
   &__confetti {
     display: var(--confetti-display);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
 
     img {

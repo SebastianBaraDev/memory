@@ -44,6 +44,23 @@
     margin-left: 20px;
   }
 
+  // fixed widths (longest possible text), so the yellow lines stay in place
+  &__info-item {
+    text-align: center;
+
+    &--theme {
+      width: 170px;
+    }
+
+    &--player {
+      width: 130px;
+    }
+
+    &--board {
+      width: 95px;
+    }
+  }
+
   &__start-button {
     background-color: $color-yellow;
     display: flex;

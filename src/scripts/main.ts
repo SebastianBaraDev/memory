@@ -4,7 +4,16 @@ import { getSettingsTemplate } from "./settings-template";
 import { getSettings, initSettingsInputs, resetSettings } from "./settings";
 import { getGameTemplate } from "./game-template";
 import { renderBoard, stopGame } from "./game";
-import { renderScreen } from "./utils";
+import { getDialogTexts, renderScreen } from "./utils";
+
+/**
+ * Starts the app: shows the home screen and adds the listeners
+ * that are needed on every screen.
+ */
+function init(): void {
+  showHome();
+  initBackToStart();
+}
 
 /**
  * Initializes the play button functionality.
@@ -16,10 +25,18 @@ function initPlayButton(): void {
     return;
   }
   playButton.addEventListener("click", () => {
-    renderScreen(getSettingsTemplate());
-    initSettingsInputs();
-    initStartButton();
+    showSettings();
   });
+}
+
+/**
+ * Shows the settings screen. Settings that are still saved
+ * (e.g. after leaving a game) are preselected.
+ */
+function showSettings(): void {
+  renderScreen(getSettingsTemplate());
+  initSettingsInputs();
+  initStartButton();
 }
 
 /**
@@ -43,16 +60,15 @@ function startGame(): void {
   const theme = getSettings().theme;
   if (!theme) return;
   document.body.dataset.theme = theme;
-  renderScreen(getGameTemplate(theme));
+  renderScreen(getGameTemplate(theme, getDialogTexts(theme)));
   initExitButton();
   initDialogBackButton();
   renderBoard();
 }
 
 /**
- * Listens for clicks on the "Back to start" / "Home" button or the exit button
- * in the dialog (event delegation) and goes back to the home screen.
- * After the exit button the settings of the game are kept.
+ * Listens for clicks on the exit button in the dialog and on the
+ * "Back to start" / "Home" button of the result screen (event delegation).
  */
 function initBackToStart(): void {
   const screen = document.getElementById("screen");
@@ -60,23 +76,38 @@ function initBackToStart(): void {
   screen.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
     if (target.closest(".exit-dialog__exit-btn")) {
-      showHome(true);
+      leaveGame();
     } else if (target.closest(".result__btn")) {
-      showHome(false);
+      showHome();
     }
   });
 }
 
 /**
- * Stops the running game and shows the home screen without a selected theme.
- * @param keepSettings - true keeps the settings for the next game, false resets them.
+ * Stops the running game and removes its theme from the page.
  */
-function showHome(keepSettings: boolean): void {
+function endGame(): void {
   stopGame();
   delete document.body.dataset.theme;
+}
+
+/**
+ * Leaves the running game and goes back to the settings screen,
+ * where the settings of this game are still selected.
+ */
+function leaveGame(): void {
+  endGame();
+  showSettings();
+}
+
+/**
+ * Ends the game and shows the home screen with empty settings.
+ */
+function showHome(): void {
+  endGame();
+  resetSettings();
   renderScreen(getHomeTemplate());
   initPlayButton();
-  if (!keepSettings) resetSettings();
 }
 
 /**
@@ -131,6 +162,4 @@ function initDialogBackButton(): void {
   });
 }
 
-renderScreen(getHomeTemplate());
-initPlayButton();
-initBackToStart();
+document.addEventListener("DOMContentLoaded", init);

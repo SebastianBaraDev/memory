@@ -1,7 +1,7 @@
 import { getSettings } from "./settings";
 import { getCardTemplate } from "./game-template";
 import { GameState } from "./types";
-import { renderScreen, setText } from "./utils";
+import { getHomeButtonText, renderScreen, setText } from "./utils";
 import { getGameOverTemplate } from "./game-over-template";
 import { getDrawTemplate, getWinnerTemplate } from "./winner-template";
 import { Card } from "./card";
@@ -266,9 +266,10 @@ function showResult(): void {
   const winner = getWinner();
   const theme = getSettings().theme;
   if (!theme) return;
+  const buttonText = getHomeButtonText(theme);
   if (winner === "draw") {
-    renderScreen(getDrawTemplate(theme));
+    renderScreen(getDrawTemplate(theme, buttonText));
     return;
   }
-  renderScreen(getWinnerTemplate(winner, theme));
+  renderScreen(getWinnerTemplate(winner, theme, buttonText));
 }

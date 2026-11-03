@@ -43,11 +43,11 @@ export function getSettingsTemplate(): string {
         <img src="/img/theme-1/thumbnail.svg" alt="Preview of the selected theme" class="settings__thumbnail-preview">
         <div class="settings__info">
           <p class="settings__info-text">
-            <span id="settings__theme-name">Game themes</span>
+            <span id="settings__theme-name" class="settings__info-item settings__info-item--theme">Game themes</span>
             <img src="/img/icons/d-line.svg" alt="">
-            <span id="settings__player-name">Player</span>
+            <span id="settings__player-name" class="settings__info-item settings__info-item--player">Player</span>
             <img src="/img/icons/d-line.svg" alt="">
-            <span id="settings__board-size">Board size</span>
+            <span id="settings__board-size" class="settings__info-item settings__info-item--board">Board size</span>
           </p>
           <button class="settings__start-button" disabled><img src="/img/icons/play.svg" alt="" class="settings__button-img">Start</button>
         </div>

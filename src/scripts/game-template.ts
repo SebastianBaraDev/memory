@@ -1,30 +1,12 @@
 import { DialogTexts } from "./types";
 
-/** Default button texts of the exit dialog. */
-const DEFAULT_DIALOG_TEXTS: DialogTexts = { back: "Back to game", exit: "Exit game" };
-
-/** Themes with their own button texts in the exit dialog (from Figma). */
-const THEME_DIALOG_TEXTS: Record<string, DialogTexts> = {
-  "theme-3": { back: "No, back to game", exit: "Yes, quit game" },
-  "theme-4": { back: "No, back to game", exit: "Exit game" },
-};
-
-/**
- * Returns the button texts of the exit dialog for the selected theme.
- * @param theme - The selected theme folder, e.g. "theme-1".
- * @returns The texts for the back button and the exit button.
- */
-function getDialogTexts(theme: string): DialogTexts {
-  return THEME_DIALOG_TEXTS[theme] || DEFAULT_DIALOG_TEXTS;
-}
-
 /**
  * Returns the HTML template for the game screen.
  * @param theme - The selected theme folder, e.g. "theme-1".
+ * @param dialogTexts - The button texts of the exit dialog.
  * @returns The HTML template for the game screen.
  */
-export function getGameTemplate(theme: string): string {
-  const dialogTexts = getDialogTexts(theme);
+export function getGameTemplate(theme: string, dialogTexts: DialogTexts): string {
   return `
     <header class="gameboard-header">
       <h1 class="visually-hidden">Memory game</h1>

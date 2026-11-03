@@ -117,7 +117,12 @@
     margin-bottom: 1.2rem;
   }
 
+  // fixed height, so the bold hover text does not push the other rows apart
   &__option {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    line-height: 28px;
     font-family: $font-secondary;
     font-size: 20px;
     font-weight: 400;

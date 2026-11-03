@@ -153,6 +153,39 @@
     }
   }
 
+  // own radio button: bigger, with a thick ring and a dot when checked
+  &__radio {
+    appearance: none; // hides the default browser radio
+    display: grid;
+    place-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    border: 3px solid $color-dark;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: $color-dark;
+      transform: scale(0);
+      transition: transform 150ms ease-in-out;
+    }
+
+    &:checked::before {
+      transform: scale(1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-dark;
+      outline-offset: 2px;
+    }
+  }
+
   &__option-text {
     position: relative; // the marker line is placed next to the text
     margin-left: 12px;

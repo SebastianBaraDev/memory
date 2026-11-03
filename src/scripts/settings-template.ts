@@ -11,31 +11,31 @@ export function getSettingsTemplate(): string {
         <fieldset class="settings__group">
           <legend class="settings__question"><img src="/img/icons/palette-favicon.svg" alt="">Game themes</legend>
           <label class="settings__option">
-            <input type="radio" name="theme" value="theme-1"><span class="settings__option-text">Code vibes theme</span></label>
+            <input type="radio" class="settings__radio" name="theme" value="theme-1"><span class="settings__option-text">Code vibes theme</span></label>
           <label class="settings__option">
-            <input type="radio" name="theme" value="theme-3"><span class="settings__option-text">Gaming theme</span></label>
+            <input type="radio" class="settings__radio" name="theme" value="theme-3"><span class="settings__option-text">Gaming theme</span></label>
           <label class="settings__option">
-            <input type="radio" name="theme" value="theme-2"><span class="settings__option-text">DA Projects theme</span></label>
+            <input type="radio" class="settings__radio" name="theme" value="theme-2"><span class="settings__option-text">DA Projects theme</span></label>
           <label class="settings__option">
-            <input type="radio" name="theme" value="theme-4"><span class="settings__option-text">Foods theme</span></label>
+            <input type="radio" class="settings__radio" name="theme" value="theme-4"><span class="settings__option-text">Foods theme</span></label>
         </fieldset>
 
         <fieldset class="settings__group">
           <legend class="settings__question"><img src="/img/icons/chess-pawn-small.svg" alt="">Choose player</legend>
           <label class="settings__option">
-            <input type="radio" name="player" value="blue"><span class="settings__option-text">Blue</span></label>
+            <input type="radio" class="settings__radio" name="player" value="blue"><span class="settings__option-text">Blue</span></label>
           <label class="settings__option">
-            <input type="radio" name="player" value="orange"><span class="settings__option-text">Orange</span></label>
+            <input type="radio" class="settings__radio" name="player" value="orange"><span class="settings__option-text">Orange</span></label>
         </fieldset>
 
         <fieldset class="settings__group">
           <legend class="settings__question"><img src="/img/icons/board-size.svg" alt="">Board size</legend>
           <label class="settings__option">
-            <input type="radio" name="board" value="16"><span class="settings__option-text">16 cards</span></label>
+            <input type="radio" class="settings__radio" name="board" value="16"><span class="settings__option-text">16 cards</span></label>
           <label class="settings__option">
-            <input type="radio" name="board" value="24"><span class="settings__option-text">24 cards</span></label>
+            <input type="radio" class="settings__radio" name="board" value="24"><span class="settings__option-text">24 cards</span></label>
           <label class="settings__option">
-            <input type="radio" name="board" value="36"><span class="settings__option-text">36 cards</span></label>
+            <input type="radio" class="settings__radio" name="board" value="36"><span class="settings__option-text">36 cards</span></label>
         </fieldset>
       </div>
 

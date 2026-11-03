@@ -52,26 +52,31 @@ function startGame(): void {
 /**
  * Listens for clicks on the "Back to start" / "Home" button or the exit button
  * in the dialog (event delegation) and goes back to the home screen.
+ * After the exit button the settings of the game are kept.
  */
 function initBackToStart(): void {
   const screen = document.getElementById("screen");
   if (!screen) return;
   screen.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
-    if (!target.closest(".result__btn, .exit-dialog__exit-btn")) return;
-    showHome();
+    if (target.closest(".exit-dialog__exit-btn")) {
+      showHome(true);
+    } else if (target.closest(".result__btn")) {
+      showHome(false);
+    }
   });
 }
 
 /**
  * Stops the running game and shows the home screen without a selected theme.
+ * @param keepSettings - true keeps the settings for the next game, false resets them.
  */
-function showHome(): void {
+function showHome(keepSettings: boolean): void {
   stopGame();
   delete document.body.dataset.theme;
   renderScreen(getHomeTemplate());
   initPlayButton();
-  resetSettings();
+  if (!keepSettings) resetSettings();
 }
 
 /**

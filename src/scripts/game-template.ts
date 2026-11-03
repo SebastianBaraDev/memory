@@ -31,11 +31,11 @@ export function getGameTemplate(theme: string): string {
       <section class="gameboard-header__score-board">
         <div class="gameboard-header__player-score">
           <img src="/img/${theme}/blue-player-icon.svg" alt="">
-          <p class="gameboard-header__blue-player-score"><span class="gameboard-header__player-name">Blue </span><span id="player-blue">0</span></p>
+          <p class="gameboard-header__blue-player-score"><span class="gameboard-header__player-name">Blue </span><span id="player-blue" class="gameboard-header__score">0</span></p>
         </div>
         <div class="gameboard-header__player-score">
           <img src="/img/${theme}/orange-player-icon.svg" alt="">
-          <p class="gameboard-header__orange-player-score"><span class="gameboard-header__player-name">Orange </span><span id="player-orange">0</span></p>
+          <p class="gameboard-header__orange-player-score"><span class="gameboard-header__player-name">Orange </span><span id="player-orange" class="gameboard-header__score">0</span></p>
         </div>
       </section>
       <section class="gameboard-header__current-player">

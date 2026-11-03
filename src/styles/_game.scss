@@ -36,6 +36,13 @@
     color: var(--color-player-orange);
   }
 
+  // a fixed width for the numbers, so the header does not move when a score changes
+  &__score {
+    display: inline-block;
+    min-width: 2ch;
+    font-variant-numeric: tabular-nums;
+  }
+
   &__current-player {
     display: flex;
     align-items: center;

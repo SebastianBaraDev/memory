@@ -22,7 +22,9 @@
     background-color: $color-yellow;
     display: flex;
     align-items: center;
+    font-family: $font-primary;
     font-size: 40px;
+    font-weight: 700;
     padding: 24px;
     gap: 20px;
     margin-top: 200px;
@@ -53,9 +55,10 @@
     transition: transform 200ms ease-in-out;
   }
 
+  // bottom left corner of the content area (also on widescreen)
   &__controller-big {
     position: absolute;
-    bottom: 10px;
-    left: -30px;
+    bottom: 0;
+    left: 0;
   }
 }

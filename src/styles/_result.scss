@@ -12,6 +12,17 @@
   justify-content: center; // content in the middle of the screen
   align-items: center;
 
+  // the content slides in from the top after the game over screen
+  > :not(.result__confetti) {
+    animation: slide-in 600ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    > :not(.result__confetti) {
+      animation: none;
+    }
+  }
+
   // color of the winner, used by the title in themes without --color-result-title
   &[data-winner="blue"] {
     --winner-color: var(--color-player-blue);
@@ -83,5 +94,17 @@
       transform: var(--button-hover-transform);
       filter: var(--button-hover-filter);
     }
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

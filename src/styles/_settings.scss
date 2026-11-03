@@ -9,9 +9,12 @@
   color: $color-dark;
   @include widescreen-content;
 
+  // fixed width, so bold hover texts do not push the right side away
   &__left {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    width: 300px;
   }
 
   &__right {
@@ -21,9 +24,12 @@
     margin-top: 110px;
   }
 
+  // fixed width, so the box does not change its size with the selected texts
   &__info {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 640px;
     background-color: $color-lightgrey;
     margin-top: 40px;
   }
@@ -31,7 +37,9 @@
   &__info-text {
     display: flex;
     align-items: center;
-    font-size: 1.2rem;
+    font-family: $font-secondary;
+    font-size: 20px;
+    font-weight: 400;
     gap: 8px;
     margin-left: 20px;
   }
@@ -40,7 +48,9 @@
     background-color: $color-yellow;
     display: flex;
     align-items: center;
-    font-size: 1.6rem;
+    font-family: $font-primary;
+    font-size: 20px;
+    font-weight: 700;
     padding: 16px;
     margin: 12px;
     gap: 8px;
@@ -70,6 +80,27 @@
     margin-top: 1.6rem;
   }
 
+  // the "Settings" title always has a yellow line below, with a square on the left
+  &__marker {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 6px);
+      left: -12px;
+      right: -14px;
+      height: 4px;
+      background-color: $color-yellow;
+    }
+
+    &::after {
+      @include marker-diamond;
+      top: calc(100% + 8px);
+      left: -12px;
+    }
+  }
+
   &__group {
     display: flex;
     flex-direction: column;
@@ -80,15 +111,46 @@
   &__question {
     display: flex;
     align-items: center;
-    font-size: 1.6rem;
+    font-family: $font-secondary;
+    font-size: 24px;
     font-weight: 700;
     margin-bottom: 1.2rem;
   }
 
   &__option {
-    font-size: 1.2rem;
+    font-family: $font-secondary;
+    font-size: 20px;
+    font-weight: 400;
     margin-bottom: 0.8rem;
     margin-left: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: 700;
+    }
+
+    // hover: a short yellow line right of the text, with a square at the end
+    &:hover .settings__option-text::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: calc(100% + 12px);
+      width: 40px;
+      height: 3px;
+      background-color: $color-yellow;
+      transform: translateY(-50%);
+    }
+
+    &:hover .settings__option-text::after {
+      @include marker-diamond;
+      top: 50%;
+      left: calc(100% + 52px);
+    }
+  }
+
+  &__option-text {
+    position: relative; // the marker line is placed next to the text
+    margin-left: 12px;
   }
 
   &__thumbnail-preview {

@@ -52,6 +52,32 @@ export function initSettingsInputs(): void {
     });
   });
   initThemePreview();
+  restoreSelection();
+}
+
+/**
+ * Checks the inputs of the last game again (after leaving it with the exit button).
+ * After a page reload all settings are null, so nothing is checked.
+ */
+function restoreSelection(): void {
+  checkInput("theme", settings.theme);
+  checkInput("player", settings.player);
+  checkInput("board", settings.boardSize);
+  showPreview(settings.theme || DEFAULT_PREVIEW_THEME);
+  updateSummary();
+}
+
+/**
+ * Checks the radio input with the given name and value.
+ * @param name - The name of the input group, e.g. "theme".
+ * @param value - The saved value, or null if nothing is selected.
+ */
+function checkInput(name: string, value: string | number | null): void {
+  if (value === null) return;
+  const input = document.querySelector<HTMLInputElement>(
+    `input[name="${name}"][value="${value}"]`,
+  );
+  if (input) input.checked = true;
 }
 
 /**
